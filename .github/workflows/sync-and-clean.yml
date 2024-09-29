@@ -48,7 +48,7 @@ jobs:
 
       - name: Remove Unwanted Files
         run: |
-          rm -rf .github/ISSUE_TEMPLATE Applications Dolphin_Level Firmware_Options FlipperZero_Dimensions GPIO Graphics Hardware_Troubleshooting Music_Player RFID Wifi_DevBoard picopass subplaylist wetox_scripts .gitignore CODE_OF_CONDUCT.md CONTRIBUTING.md Clean_up_files.bat DonationInfo.md LICENSE ReadMe.md SECURITY.md
+          rm -rf .github/ISSUE_TEMPLATE Applications Dolphin_Level Firmware_Options FlipperZero_Dimensions GPIO Graphics Hardware_Troubleshooting Music_Player RFID Wifi_DevBoard flipper_toolbox picopass subplaylist wetox_scripts .gitignore CODE_OF_CONDUCT.md CONTRIBUTING.md Clean_up_files.bat DonationInfo.md LICENSE ReadMe.md SECURITY.md
 
       - name: Commit Changes
         run: |
