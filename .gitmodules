@@ -1,6 +1,3 @@
-[submodule "flipper_toolbox"]
-	path = flipper_toolbox
-	url = https://github.com/evilpete/flipper_toolbox
 [submodule "BadUSB/Jakoby_BadUSB"]
 	path = BadUSB/Jakoby_BadUSB
 	url = https://github.com/I-Am-Jakoby/Flipper-Zero-BadUSB
