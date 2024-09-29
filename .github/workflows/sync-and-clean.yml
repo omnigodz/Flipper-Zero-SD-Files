@@ -1,0 +1,67 @@
+name: Sync the Fork and Remove Unwanted Files
+
+on:
+  schedule:
+    - cron: '0 0 1,16 * *'  # Runs at 00:00 UTC on the 1st and 16th of each month
+  workflow_dispatch:        # Allows manual triggering
+
+jobs:
+  sync-and-clean:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+
+      - name: Add Upstream Remote
+        run: |
+          git remote add upstream https://github.com/UberGuidoZ/Flipper.git
+          git fetch upstream
+
+      - name: Merge Upstream Changes
+        run: |
+          git checkout main
+          git merge upstream/main --no-edit
+
+      - name: Remove First Three Lines from .gitmodules
+        run: |
+          if [ -f ".gitmodules" ]; then
+            sed -i '1,3d' .gitmodules
+          else
+            echo ".gitmodules file does not exist."
+          fi
+
+      - name: Rename Directory
+        run: |
+          if [ -d "Sub-GHz" ]; then
+            mv Sub-GHz subghz
+          else
+            echo "Directory 'Sub-GHz' does not exist, skipping rename."
+          fi
+
+      - name: Remove Unwanted Files
+        run: |
+          rm -rf .github/ISSUE_TEMPLATE Applications Dolphin_Level Firmware_Options FlipperZero_Dimensions GPIO Graphics Hardware_Troubleshooting Music_Player RFID Wifi_DevBoard picopass subplaylist wetox_scripts .gitignore CODE_OF_CONDUCT.md CONTRIBUTING.md Clean_up_files.bat DonationInfo.md LICENSE ReadMe.md SECURITY.md
+
+      - name: Commit Changes
+        run: |
+          git add .
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Sync with upstream and remove unwanted files"
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Push Changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
